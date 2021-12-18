@@ -1,34 +1,19 @@
-require("dotenv").config();
-const fs = require("fs");
-const { Collection, Client } = require("discord.js");
-const client = new Client();
-client.commands = new Collection();
-client.queue = new Map();
+const { Player } = require('discord-player');
+const { Client, Intents } = require('discord.js');
 
-
-fs.readdir(__dirname + "/events/", (err, files) => {
-    if (err) return console.error(err);
-    files.forEach((file) => {
-        const event = require(__dirname + `/events/${file}`);
-        let eventName = file.split(".")[0];
-        client.on(eventName, event.bind(null, client));
-        console.log("Loading Event: " + eventName)
-    });
+global.client = new Client({
+    intents: [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MEMBERS,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_VOICE_STATES
+    ],
+    disableMentions: 'everyone',
 });
 
-fs.readdir("./commands/", (err, files) => {
-    if (err) return console.error(err);
-    files.forEach((file) => {
-        if (!file.endsWith(".js")) return;
-        let props = require(`./commands/${file}`);
-        let commandName = file.split(".")[0];
-        client.commands.set(commandName, props);
-        console.log("Loading Command: " + commandName)
-    });
-});
+global.player = new Player(client, client.config.opt.discordPlayer);
 
-client.config = {
-    prefix: process.env.PREFIX
-}
+require('./src/loader');
+require('./src/events');
 
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN);
