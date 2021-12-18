@@ -1,0 +1,22 @@
+{
+  "name": "Music-Discord-Bot",
+  "author": "MoeZilla",
+  "version": "0.0.8",
+  "repository": "https://github.com/Moezilla/Music-Discord-Bot",
+  "description": "Discord Music Bot",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord-player": "^5.1.0",
+    "discord.js": "^13.1.0",
+    "ffmpeg-static": "^4.4.0",
+    "ms": "^3.0.0-canary.1",
+    "opusscript": "^0.0.8",
+	"@discord-player/extractor": "^3.0.1",
+	"genius-lyrics": "^4.3.0"
+  },
+  "engines": {
+    "node": "16.x"
+  }
+}
